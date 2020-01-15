@@ -6,14 +6,16 @@ const userModel = require('../../models/register');
 
 //signup functionality route
 router.post('/signup', (req, res, next) => {
-    bcrypt.hash(req.body.password, 15, (err, hash) => {
-        if (hash) {
-            res.status(200).json(hash)
-        } else {
-            console.log(err)
-        }
-    })
-    // const userDetails = {
+    // const { username, email, password, confirmPassword } = req.body
+    
+    // bcrypt.hash(req.body.password, 15, (err, hash) => {
+    //     if (hash) {
+    //         res.status(200).json(hash)
+    //     } else {
+    //         console.log(err)
+    //     }
+    // })
+    // // const userDetails = {
     //     username: req.body.username,
     //     email: req.body.email,
         
