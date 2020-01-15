@@ -23,12 +23,6 @@ const userSchema = new Schema({
         max: 100,
         min: 6
     },
-    confirmPassword: {
-        type: String,
-        required: true,
-        max: 100,
-        min: 6
-    },
     created_dt: {
         type: Date,
         default: Date.now,
