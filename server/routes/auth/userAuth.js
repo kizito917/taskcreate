@@ -15,12 +15,18 @@ router.post('/signup', (req, res, next) => {
         message: 'A user with email already exists'
       })
     }
-  })
-  .catch(err => {
+      //check password match with confirm password
+    if(password !== confirmPassword) {
+      return res.json({
+        error: "Your passwords do not match"
+      })
+    }
+  }).catch(err => {
     return res.json({
       error: "An error occurred. Please try again"
     })
   })
+  
 
   bcrypt.hash(password, 10, (err,hash)=>{
     if(err) {
@@ -40,8 +46,7 @@ router.post('/signup', (req, res, next) => {
         message: 'User Created',
         token
       })
-    })
-    .catch(err =>{
+    }).catch(err =>{
       return res.json({
         error: 'An error occurred during registeration. Please try again '
       })
