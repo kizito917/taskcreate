@@ -50,5 +50,36 @@ router.post('/signup', (req, res, next) => {
       
 })
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+router.post('/login', (req,res) =>{
+  const { email, password } = req.body
+  User.findOne({email})
+  .then(user =>{
+    if(!user) {
+      return res.json({
+        message: 'No user registered with this email'
+      })
+    }
+    bcrypt.compare(password, user.password,(err,resp)=>{
+      if(!resp) {
+        return res.json({
+          error: 'Invalid email or password'
+        })
+      }
+
+      const token = jwt.sign({
+        email
+      }, process.env.SECRET, {expiresIn: '1h'})
+
+      return res.json({
+        message: 'Login Success',
+        token
+      })
+    })
+  })
+  .catch(error =>{
+    return res.json({
+      error: error
+    })
+  })
+})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 module.exports = router;
