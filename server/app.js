@@ -3,17 +3,27 @@ const app = express();
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const bodyparser = require('body-parser')
+const cookieParser = require('cookie-parser');
 const port = process.env.PORT;
 const userAuthRoute = require('./routes/auth/userAuth');
+const createTaskRoute = require('./routes/taskFunc/createTask');
 const db_conn = require('./config/conn');
 
+//placing cors options for origin and other access details
 var corsOptions = {
-    origin: '*',
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
 }  
 
-app.use(cors(corsOptions))
-app.use(bodyparser.urlencoded({extended: false}))
-app.use('/auth', userAuthRoute)
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyparser.urlencoded({extended: false}));
+app.use(cookieParser());
+app.use('/auth', userAuthRoute);
+app.use('/user', createTaskRoute);
 
 app.listen(port, (err, done) => {
     if(err) {
