@@ -7,9 +7,9 @@
     "dev-server": "cross-env NODE_ENV=developement nodemon app.js"
   },
   "author": {
-      "name": "Kizito917",
-      "email": "johnkingsley917@gmail.com"
-    },
+    "name": "Kizito917",
+    "email": "johnkingsley917@gmail.com"
+  },
   "contributors": [
     {
       "name": "Aviator ifeanyi",
