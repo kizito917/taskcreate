@@ -22,42 +22,54 @@ router.get('/user_details', (req, res, next) => {
 
 //signup functionality route
 router.post('/signup', (req, res, next) => {
-    bcrypt.hash(req.body.password, 15, (err, hash) => {
-        if (err) {
-            return res.status(400).json({
-                message: 'Unable to hash password'
-            })
-        } else {
-            userModel.findOne({username: req.body.username, 
-                email: req.body.email}, (err, data) => {
-                if (data === null) {
-                    var userData = userModel({
-                        username: req.body.username,
-                        email: req.body.email,
-                        password: hash,
-                        confirmPassword: hash,
-                        created_dt: Date.now()
-                    })
-                    userData.save((err, done) => {
-                        if (err) {
-                            return res.status(400).json({
-                                message:'Unable to Process User Registration'
-                            })
-                        } else {
-                            return res.status(200).json({
-                                message: 'User Registered Successfully'
-                            })
-                        }
-                    })
-                } else {
-                    return res.status(200).json({
-                        message: 'Email and username already exists',
-                        data
-                    })
-                }
-            })
-        }
-    })
+    if (req.body.password != req.body.confirmPassword) {
+        return res.status(400).json({
+            message: 'Password and confirm password doesn\t match'
+        })
+    } else {
+        bcrypt.hash(req.body.password, 15, (err, hash) => {
+            if (err) {
+                return res.status(400).json({
+                    message: 'Unable to hash password'
+                })
+            } else {
+                bcrypt.hash(req.body.confirmPassword, 15, (err, hashed) => {
+                    if (err) {
+                        return res.status(400).json(err)
+                    } else {
+                        userModel.findOne({username: req.body.username, 
+                            email: req.body.email}, (err, data) => {
+                            if (data === null) {
+                                var userData = userModel({
+                                    username: req.body.username,
+                                    email: req.body.email,
+                                    password: hash,
+                                    confirmPassword: hashed,
+                                    created_dt: Date.now()
+                                })
+                                userData.save((err, done) => {
+                                    if (err) {
+                                        return res.status(400).json({
+                                            message:'Unable to Process User Registration'
+                                        })
+                                    } else {
+                                        return res.status(200).json({
+                                            message: 'User Registered Successfully'
+                                        })
+                                    }
+                                })
+                            } else {
+                                return res.status(200).json({
+                                    message: 'Email and username already exists',
+                                    data
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }
 })
 
 //route for login functionality
@@ -75,7 +87,7 @@ router.post('/login', (req, res, next) => {
                         message: 'Incorrect password'
                     })
                 } else {
-                    jwt.sign({user}, process.env.SECRET_KEY, (err, token) => {
+                    jwt.sign({user}, process.env.SECRET_KEY, {expiresIn: '1hr'}, (err, token) => {
                         res.status(200).json(token)
                     })
                 }
