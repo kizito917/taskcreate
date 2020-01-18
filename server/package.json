@@ -6,7 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Kizito917",
+  "author": {
+      "name": "Kizito917",
+      "email": "johnkingsley917@gmail.com"
+    },
+  "contributors": [
+    {
+      "name": "Aviator ifeanyi",
+      "email": "inboxlegacy@gmail.com"
+    }
+  ],
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
