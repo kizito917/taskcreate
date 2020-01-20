@@ -88,7 +88,10 @@ router.post('/login', (req, res, next) => {
                     })
                 } else {
                     jwt.sign({user}, process.env.SECRET_KEY, {expiresIn: '1hr'}, (err, token) => {
-                        res.status(200).json(token)
+                        res.status(200).json({
+                            token,
+                            message: 'Login Success'
+                        })
                     })
                 }
             })
