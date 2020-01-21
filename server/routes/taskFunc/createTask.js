@@ -28,7 +28,7 @@ router.post('/createTask', isValidUser, (req, res) => {
             })
         } else {
             req.params = authData
-            let userTaskDetails = taskModel({
+            var userTaskDetails = taskModel({
                 user_id: req.params.user.id,
                 username: req.params.user.username,
                 email: req.params.user.email,
@@ -36,11 +36,11 @@ router.post('/createTask', isValidUser, (req, res) => {
                 taskTitle: req.body.taskTitle,
                 taskDesc: req.body.taskDesc,
                 taskStatus: 'pending',
-                start_Date: req.body.startDate,
-                end_date: req.body.endDate
+                start_date: Date.now(),
+                end_date: Date.now()
             })
             userTaskDetails.save((err, result) => {
-                if(err) {
+                if (err) {
                     return res.status(400).json({
                         message: 'Unable to create task'
                     })
@@ -49,7 +49,7 @@ router.post('/createTask', isValidUser, (req, res) => {
                         from: GMAIL_USER,
                         to: 'johnkingsley917@gmail.com',
                         subject: 'New Task Created',
-                        html: 'Hi' + result.username + ', A new task with Title: ' + result.taskTitle + ' has just been created by you <br> Your task is currently pending and will be due by ' + result.end_date + '.'
+                        html: '<h4> Hi ' + result.username + ', A new task with Title: ' + '<b>' + result.taskTitle + '</b>' + ' has just been created by you <br> Your task is currently having a status: PENDING and will be due by ' + result.end_date + '.</h4>'
                     }
         
                     transporter.sendMail(mailOptions, (error, info) => {
@@ -67,13 +67,10 @@ router.post('/createTask', isValidUser, (req, res) => {
                                     end_date: result.endDate
                                 }
                             })
-                            // console.log(info)
-                            
                         }
                     }) 
                 }
             })
-            
         }
     })
 })
