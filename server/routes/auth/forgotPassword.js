@@ -69,4 +69,29 @@ router.post('/reset_password', (req,res)=> {
 	})
 })
 
+router.get("/password_reset/:token", (req,res) => {
+	const { token } = req.params
+	userRegModel.findOne({resetPasswordToken: token, resetPasswordExpiryTime: {$gt: Date.now()}}, (err, token) => {
+		if(err) {
+			return res.status(400).json({
+				message: err.message
+			})
+		} 
+		if(!token) {
+			return res.status(401).json({
+				message: 'Invalid token or token has expired.'
+			})
+		}
+
+		//user validates with correct token
+		return res.status(200).json({
+			message: 'Redirecting user to change password'
+		})
+	})
+	
+}).post((req,res) => {
+		console.log('posting ')
+	})
+
+
 module.exports = router
