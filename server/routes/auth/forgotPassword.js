@@ -88,10 +88,70 @@ router.get("/password_reset/:token", (req,res) => {
 			message: 'Redirecting user to change password'
 		})
 	})
-	
-}).post((req,res) => {
-		console.log('posting ')
-	})
+})
 
+router.post("/password_reset/:token", (req,res) => {
+	const { token } = req.params
+	userRegModel.findOne({resetPasswordToken: token, resetPasswordExpiryTime: {$gt: Date.now()}}, (err, user) => {
+		if(err) {
+			return res.status(400).json({
+				message: err.message
+			})
+		} 
+		if(!user) {
+			return res.status(401).json({
+				message: 'Invalid token or token has expired.'
+			})
+		}
+
+		const password = req.body.password
+
+		bcrypt.hash(password, 10, (err, hash) => {
+			if(err){
+				return res.status(500).json({
+					message: err.message
+				})
+			}
+			
+			//update user password and hash it
+			user.password = hash
+
+			//remove values assigned to resetpasswordtoken and it time expiration
+			user.resetpasswordtoken = undefined
+			user.resetPasswordExpiryTime = undefined
+
+			user.save((err) => {
+				if(err) {
+					return res.status(500).json({
+						message: err.message
+					})
+				}
+
+				const link = `https://${req.headers.host}/auth/login`
+
+				const mailOptions = {
+					from: GMAIL_USER,
+					to: 'johnkingsley917@gmail.com',
+					subject: 'Login Link',        
+	        text: `Hello ${user.username}
+	        	Password reset successful.
+				    Please click on the following link ${link} to login`,
+	    	}
+	    	
+	    	transporter.sendMail(mailOptions, (error, info) => {
+	  	    if (error) {
+	  	      return console.log(error)
+	  	    }else {
+		        return res.status(200).json({
+		          message: 'Password reset successful'
+		        })
+	  	    }
+	    	}) 
+			})
+
+		})
+
+	})	
+})
 
 module.exports = router
