@@ -32,7 +32,7 @@ router.post('/userPasswordChangeToken', isValidUser, (req, res) => {
                 } else {
                     let mailOptions = {
                         from: GMAIL_USER,
-                        to: 'johnkingsley917@gmail.com',
+                        to: 'inboxlegacy@gmail.com',
                         subject: 'Profile Password Change',
                         html: 'Hi ' + result.username + ', you requested for a password change. Use ' + '<b>'+ process.env.PASS_RESET_CODE + '</b>' + ' as your password change passcode.' + '<br>' + '<p>If you did not request for a password change, Kindly notify our technical service team.'
                     }
