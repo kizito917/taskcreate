@@ -40,7 +40,7 @@ const userSchema = new Schema({
 
 userSchema.methods.passwordReset = function() {
     this.resetPasswordToken = crypto.randomBytes(20).toString('hex');
-    this.resetPasswordExpires = Date.now() + 3600000; //expires in an hour
+    this.resetPasswordExpiryTime = Date.now() + 3600000; //expires in an hour
 };
 
 mongoose.set('useFindAndModify', false);
