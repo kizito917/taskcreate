@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const crypto = require('crypto')
+
 
 const userSchema = new Schema({
     username: {
@@ -23,12 +25,25 @@ const userSchema = new Schema({
         max: 100,
         min: 6
     },
+    resetPasswordToken: {
+        type: String,
+    },
+    resetPasswordExpiryTime: {
+        type: Date,
+    },
     created_dt: {
         type: Date,
         default: Date.now,
         required: true
     }
 })
+
+userSchema.methods.passwordReset = function() {
+    this.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+    this.resetPasswordExpiryTime = Date.now() + 3600000; //expires in an hour
+};
+
+mongoose.set('useFindAndModify', false);
 
 const modelSchema = mongoose.model('user', userSchema)
 

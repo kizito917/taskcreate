@@ -6,6 +6,7 @@ const bodyparser = require('body-parser')
 const cookieParser = require('cookie-parser');
 const port = process.env.PORT;
 const userAuthRoute = require('./routes/auth/userAuth');
+const userResetPassword = require('./routes/auth/forgotPassword');
 const createTaskRoute = require('./routes/taskFunc/createTask');
 const updateTaskStatusRoute = require('./routes/taskFunc/taskStatus');
 const updateUserProfileRoute = require('./routes/profile/editProfile');
@@ -26,7 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyparser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use('/auth', userAuthRoute);
+app.use('/auth', userAuthRoute, userResetPassword);
 app.use('/user', createTaskRoute, updateTaskStatusRoute, 
                 updateUserProfileRoute, getUserProfileRoute,
                 passwordChangeRoute);
