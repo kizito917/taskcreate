@@ -76,6 +76,49 @@ router.post('/createTask', isValidUser, (req, res) => {
 })
 
 
+//route to get all user tasks
+router.get('/myTasks', isValidUser, (req, res) => {
+    jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
+        if (err) {
+            return res.status(403).json(err)
+        } else {
+            req.params = authData
+            taskModel.find({user_id: req.params.user.id}, (err, result) => {
+                if (err) {
+                    return res.statusCode(501).json(err)
+                } else {
+                    return res.status(200).json({
+                        message: 'All Tasks Successfully Fetched',
+                        result
+                    })
+                }
+            })
+        }
+    })
+})
+
+//route to get details of a particular task
+router.get('/myTask/:id', isValidUser, (req, res) => {
+    jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
+        if (err) {
+            return res.status(401).json(err)
+        } else {
+            req.params = authData
+            taskModel.findById({taskId: req.params.taskId}, {useFindAndModify: false},
+                 (err, result) => {
+                     if (err) {
+                         return res.status(401).json(err)
+                     } else {
+                         return res.status(200).json({
+                             message: 'Task Details Fetched',
+                             result
+                         })
+                     }
+                 })
+        }
+    })
+})
+
 
 //function to check validated user
 function isValidUser(req, res, next) {
