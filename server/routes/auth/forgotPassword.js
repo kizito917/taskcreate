@@ -1,8 +1,5 @@
 const express = require('express');
 const router = express.Router();
-<<<<<<< HEAD
-const 
-=======
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
@@ -158,4 +155,3 @@ router.post("/password_reset/:token", (req,res) => {
 })
 
 module.exports = router
->>>>>>> 689cf23d30cf81b86530c7b6b53a1d126f8d939f
