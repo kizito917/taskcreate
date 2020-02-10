@@ -2,7 +2,7 @@
     <div class="main-body">
         <div class="first-bg-section">
             <div class="second-bg-section">
-                <h5>Hi User, Welcome Back</h5>
+                <h5>Welcome User, we would love to have you</h5>
                 <p>your account awaits you</p>
                 <div class="form-area">
                     <form action="">
@@ -10,13 +10,18 @@
                             <input type="text" name="" id="" class="form-control" placeholder="Username">
                         </div>
                         <div class="form-group">
+                            <input type="email" name="" id="" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="form-group">
                             <input type="password" name="" id="" class="form-control" placeholder="Password">
                         </div>
-                        <div>
-                            <button class="login-btn">Login Account</button>
+                        <div class="form-group">
+                            <input type="password" name="" id="" class="form-control" placeholder="Confirm Password">
                         </div>
-                        <p class="forgot-pass">forgot password, <router-link to="">Click here</router-link></p>
-                        <p class="register-route">i am a first time user!!!, <router-link to="/register">Click here to register</router-link></p>
+                        <div>
+                            <button class="login-btn">Sign Up</button>
+                        </div>
+                        <p class="login-pass">Already have an account, <router-link to="/">Login</router-link></p>
                     </form>
                 </div>
                 <p class="copy"><b>&copy; {{ getCopyRightContent }}</b></p>
@@ -65,9 +70,7 @@ export default {
         font-size: 18px;
         line-height: 22px;
         text-align: center;
-        color: #000000;
-        mix-blend-mode: darken;
-        margin-top: 20px;
+        padding-top: 20px;
     }
 
     .second-bg-section> p {
@@ -99,17 +102,17 @@ export default {
         width: 90%;
         margin-left: 5%;
         margin-right: 5%;
-        margin-top: 20px;
+        margin-top: 10px;
     }
 
-    .forgot-pass, .register-route {
+    .login-pass {
         font-family: Schadow BT;
         font-style: normal;
         font-weight: normal;
         font-size: 14px;
         line-height: 13px;
         text-align: center;
-        margin-top: 30px;
+        margin-top: 10px;
     }
 
     .copy {
@@ -122,26 +125,16 @@ export default {
         background-color: #4CAF50;
         border-radius: 15px;
         width: 290px;
-        height: 410px;
+        height: 450px;
+        margin-top: 20px;
     }
 
     .second-bg-section {
         position: absolute;
         background-color: #ffffff;
         width: 279px;
-        height: 397px;
+        height: 430px;
         border-radius: 10px;
     }
-
-    .forgot-pass, .register-route {
-        font-family: Schadow BT;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 12px;
-        line-height: 13px;
-        text-align: center;
-        margin-top: 30px;
-    }
 }
-
 </style>
